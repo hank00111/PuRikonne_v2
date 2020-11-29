@@ -58,10 +58,14 @@ namespace Puri2
 
         private static bool TESX;
 
+        private static int i = 0;
+
+        public Task t1;
+
         public MainWindow()
         {
             InitializeComponent();
-            
+           
         }
 
 
@@ -69,6 +73,7 @@ namespace Puri2
         {
             
             CaptureMyScreen();
+                  
             picImage = new Mat(@"G:\相片\新增資料夾\Puri\Capture.jpg", ImreadModes.Grayscale);
             src = new Mat(@"G:\相片\新增資料夾\Puri\src.jpg", ImreadModes.Grayscale);
             //imgSC.Source = picImage.ToBitmapSource();
@@ -79,13 +84,49 @@ namespace Puri2
                 OpenCvSharp.Point minLoc, maxLoc;
                 Cv2.MatchTemplate(src, picImage, result, TemplateMatchModes.CCoeffNormed); //マッチング処理
                 Cv2.MinMaxLoc(result, out minVal, out maxVal, out minLoc, out maxLoc); //最大値と座標を取得
-
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(maxVal.ToString() + maxLoc + src.Size() + minVal.ToString() + minLoc);
                 if (maxVal >= 0.8)
                 {
                     var ssx = src.Size();
+                    //var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
 
-                    //SetCursorPos(maxLoc.X + ssx.Width / 2, maxLoc.Y + ssx.Height / 2);
+                    SetCursorPos(maxLoc.X + 109, maxLoc.Y + 712);
+                    //xr+165
+
+                    var mouse = GetMousePosition();
+                    ////System.Windows.Point Convert.ToInt32(mouse.X) + 165
+                    SetCursorPos(Convert.ToInt32(mouse.X) + 165, maxLoc.Y + 712);
+                    double[] cr = { mouse.X };
+                    Console.WriteLine("set2" + " " + cr[0]);
+                    System.Threading.Thread.Sleep(1000);
+                    //string y = null;
+                    
+                    mouse = GetMousePosition();
+                    SetCursorPos(Convert.ToInt32(mouse.X) + 165, maxLoc.Y + 712);
+                    Console.WriteLine("set3");
+
+                    System.Threading.Thread.Sleep(1000);
+                    mouse = GetMousePosition();
+                    SetCursorPos(Convert.ToInt32(mouse.X) + 186, maxLoc.Y + 712);
+                    Console.WriteLine("set4");
+
+                    System.Threading.Thread.Sleep(1000);
+                    mouse = GetMousePosition();
+                    SetCursorPos(Convert.ToInt32(mouse.X) + 186, maxLoc.Y + 712);
+                    Console.WriteLine("set5");
+
+                    System.Threading.Thread.Sleep(1000);
+                    mouse = GetMousePosition();
+                    SetCursorPos(Convert.ToInt32(mouse.X) + 179, maxLoc.Y + 712);
+                    Console.WriteLine("set6");
+
+                    System.Threading.Thread.Sleep(1000);
+                    mouse = GetMousePosition();
+                    SetCursorPos(Convert.ToInt32(mouse.X) + 152, maxLoc.Y + 712);
+                    Console.WriteLine("set7");
+                    //SetCursorPos(Convert.ToInt32(mouse.X) + 165, maxLoc.Y + 714);
+                    //SetCursorPos(Convert.ToInt32(mouse.X) + 165, maxLoc.Y + 714);
                     //Console.WriteLine(DateTime.Now.ToString("hh:mm:ss.fff ") + "Set Mouse_XY");
                     //listBox1.Items.Add(DateTime.Now.ToString("hh:mm:ss.fff ") + "Set Mouse_XY");
                     //MyMouseDown(MOUSEEVENTF_LEFTDOWN);
@@ -102,7 +143,12 @@ namespace Puri2
                     picImage.Rectangle(new OpenCvSharp.Rect(maxLoc, src.Size()), Scalar.Blue, 2);
                     picImage.PutText(maxVal.ToString(), maxLoc, HersheyFonts.HersheyDuplex, 1, Scalar.Blue);
                 }
-                Console.WriteLine(maxVal.ToString()+ " err");
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(maxVal.ToString() + " err");
+                }
+                
             }
             //picImage.Release();
             imgSC.Source = picImage.ToBitmapSource();
@@ -114,19 +160,33 @@ namespace Puri2
 
         private void mouese()
         {
-            this.Dispatcher.BeginInvoke((Action)delegate ()
+
+            while (TESX)
             {
-                while (TESX)
-                {
-                    var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
-                    var mouse = transform.Transform(GetMousePosition());
-                    Console.WriteLine(DateTime.Now.ToString("[HH:mm:ss] ") + "X:" + mouse.X + " Y: " + mouse.Y);
-                    //System.Threading.Thread.Sleep(250);
-                    System.Threading.SpinWait.SpinUntil(() => false, 450);
-                    DoEvents();
-                    GC.Collect();
-                }
-            });
+                var mouse = GetMousePosition();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(DateTime.Now.ToString("[HH:mm:ss] ") + "X:" + mouse.X + " Y: " + mouse.Y + " " + "[Debug]" + Convert.ToString(mouse.X));
+                System.Threading.SpinWait.SpinUntil(() => false, 1000);
+                DoEvents();
+                GC.Collect();
+            }
+            //Console.WriteLine(task.AsyncState.ToString());
+
+            //this.Dispatcher.BeginInvoke((Action)delegate ()
+            //{
+            //    while (TESX)
+            //    {
+            //        var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
+            //        var mouse = transform.Transform(GetMousePosition());
+            //        Console.ForegroundColor = ConsoleColor.Green;
+            //        Console.WriteLine("[Debug]" + Convert.ToString(mouse.X));
+            //        Console.WriteLine(DateTime.Now.ToString("[HH:mm:ss] ") + "X:" + mouse.X + " Y: " + mouse.Y);
+            //        //System.Threading.Thread.Sleep(250);
+            //        System.Threading.SpinWait.SpinUntil(() => false, 450);
+            //        DoEvents();
+            //        GC.Collect();
+            //    }
+            //});
 
             //while (TESX)
             //{
@@ -139,16 +199,28 @@ namespace Puri2
             //}
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             screen();
             TESX = true;
-            this.Dispatcher.Invoke(mouese);
+            
+            i+=1;
+            if (i==1)
+            {
+                await Task.Run(() => mouese());
+            }
+            //screen();
+            //if (t1 ==null )
+            //{
+            //    this.Dispatcher.Invoke(mouese);
+            //}
+            //this.Dispatcher.Invoke(mouese);
             GC.Collect();
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             TESX = false;
+            i = 0;
             GC.Collect();
         }
 
