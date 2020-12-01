@@ -4,17 +4,17 @@
 exe
 C#
 .cs
-G:\PY\Puri2\obj\x64\Debug\
+D:\Code\PuRikonne_v2\obj\x64\Debug\
 Puri2
 none
 false
 DEBUG;TRACE
-G:\PY\Puri2\App.xaml
+D:\Code\PuRikonne_v2\App.xaml
 11151548125
-4-1082111435
-5-2017746502
-25642422126
+4-1626931422
+6-696006883
+251514816307
 MainWindow.xaml;
 
-False
+True
 
