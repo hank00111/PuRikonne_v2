@@ -157,6 +157,19 @@ namespace Puri2
 
         }
 
+        private void kuesuto_chiyousa()
+        {
+            CaptureMyScreen();
+            picImage = new Mat(@"D:\Code\相片\Puri\Capture.jpg", ImreadModes.Grayscale);
+            src = new Mat(@"D:\Code\相片\Puri\src.jpg", ImreadModes.Grayscale);
+
+
+
+
+        }
+
+
+
         private void mouese()
         {
             while (TESX)
@@ -200,6 +213,7 @@ namespace Puri2
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            i = 0;
             TESX = false;
             GC.Collect();
         }
